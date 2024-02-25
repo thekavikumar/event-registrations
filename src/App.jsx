@@ -3,9 +3,13 @@ import Select from "./Select";
 import { IoIosSearch } from "react-icons/io";
 import { ref, onValue } from "firebase/database";
 import { db } from "../firebase";
+import ReactCSV from "./ReactCSV";
+import { Loader2 } from "lucide-react";
 
 function App() {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [data, setData] = useState([]); // Replace with useState([
+  const [loading, setLoading] = useState(false);
 
   const searchData = async (selectedOption) => {
     const userRef = ref(db, "users/");
@@ -34,14 +38,14 @@ function App() {
                   // console.log("orderItems: ", orderItems);
                   // Iterate over items
                   orderItems.forEach((item) => {
-                    console.log("item: ", item.eventTitle);
-                    console.log("selectedOption: ", selectedOption);
+                    // console.log("item: ", item.eventTitle);
+                    // console.log("selectedOption: ", selectedOption);
                     if (
                       item.hasOwnProperty("eventTitle") &&
                       item.eventTitle == selectedOption.value
                     ) {
                       // If eventTitle matches selectedOption, add user to result
-                      usersWithEvent.push(user);
+                      usersWithEvent.push(user.Details?.userDetails);
                     }
                   });
                 }
@@ -58,9 +62,11 @@ function App() {
   };
 
   const handleSearch = async () => {
+    setLoading(true);
     if (selectedOption == null) return;
     const data = await searchData(selectedOption);
-    console.log("data: ", data);
+    setData(data);
+    setLoading(false);
   };
 
   return (
@@ -76,10 +82,14 @@ function App() {
           className="flex items-center gap-2 border border-zinc-300 px-3 py-2 text-sm rounded-md hover:bg-black hover:text-white duration-200 ease-in-out "
           onClick={handleSearch}
         >
-          <IoIosSearch />
+          {loading ? <Loader2 className="animate-spin h-4" /> : <IoIosSearch />}
           Search
         </button>
       </div>
+      {/* {data.length > 0 && <ExcelExport data={data} fileName={selectedOption} />} */}
+      {data?.length > 0 && (
+        <ReactCSV data={data} selectedOption={selectedOption.value} />
+      )}
     </main>
   );
 }
