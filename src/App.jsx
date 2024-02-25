@@ -70,7 +70,7 @@ function App() {
   };
 
   return (
-    <main className="h-screen flex flex-col items-center justify-center">
+    <main className="h-screen flex flex-col p-5 md:p-0 items-center justify-center">
       <img
         src="https://intranet.cb.amrita.edu/sites/default/files/inline-images/AMRIT-removebg-preview_2.png"
         alt="logo"
