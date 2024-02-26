@@ -4,7 +4,6 @@ import { IoIosSearch } from "react-icons/io";
 import { ref, onValue } from "firebase/database";
 import { db } from "../firebase";
 import ReactCSV from "./ReactCSV";
-import { Loader2 } from "lucide-react";
 
 function App() {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -62,11 +61,9 @@ function App() {
   };
 
   const handleSearch = async () => {
-    setLoading(true);
     if (selectedOption == null) return;
     const data = await searchData(selectedOption);
     setData(data);
-    setLoading(false);
   };
 
   return (
@@ -76,13 +73,13 @@ function App() {
         alt="logo"
         className="h-24 mb-5"
       />
-      <div className="max-w-xl w-full flex items-center gap-3">
+      <div
+        className="max-w-xl w-full flex items-center gap-3"
+        onClick={handleSearch}
+      >
         <Select setSelectedOption={setSelectedOption} />
-        <button
-          className="flex items-center gap-2 border border-zinc-300 px-3 py-2 text-sm rounded-md hover:bg-black hover:text-white duration-200 ease-in-out "
-          onClick={handleSearch}
-        >
-          {loading ? <Loader2 className="animate-spin h-4" /> : <IoIosSearch />}
+        <button className="flex items-center gap-2 border border-zinc-300 px-3 py-2 text-sm rounded-md hover:bg-black hover:text-white duration-200 ease-in-out ">
+          <IoIosSearch />
           Search
         </button>
       </div>
