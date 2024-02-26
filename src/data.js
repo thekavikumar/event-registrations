@@ -67,7 +67,7 @@ export const eventOptions = [
     value: "L.A.W : Legal Appellant War",
     label: "L.A.W : Legal Appellant War",
   },
-  { value: "S.O.S : Shoot On Sight", label: "S.O.S : Shoot On Sight" },
+  { value: "S.O.S : Shoot On Sight ", label: "S.O.S : Shoot On Sight " },
   {
     value: "Riddle Realm: Win as you solve",
     label: "Riddle Realm: Win as you solve",
