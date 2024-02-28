@@ -1,4 +1,5 @@
 export const eventOptions = [
+  { value: "All", label: "All" },
   { value: "Escape Room", label: "Escape Room" },
   {
     value: "Workshop on Hugging Face Transformers",

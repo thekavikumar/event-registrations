@@ -14,48 +14,85 @@ function App() {
     const userRef = ref(db, "users/");
     let usersWithEvent = [];
 
-    onValue(userRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const userData = snapshot.val();
+    if (selectedOption.value === "All") {
+      onValue(userRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
 
-        // Iterate over each user
-        Object.keys(userData).forEach((userId) => {
-          const user = userData[userId];
+          // Iterate over each user
+          Object.keys(userData).forEach((userId) => {
+            const user = userData[userId];
 
-          // Check if user has orders
-          if (user.hasOwnProperty("orders")) {
-            const userOrders = user.orders;
-            // Iterate over orders
-            Object.keys(userOrders).forEach((orderId) => {
-              const order = userOrders[orderId];
+            // Check if user has orders
+            if (user.hasOwnProperty("orders")) {
+              const userOrders = user.orders;
+              // Iterate over orders
+              Object.keys(userOrders).forEach((orderId) => {
+                const order = userOrders[orderId];
 
-              Object.keys(order).forEach((key) => {
-                // Check if order has items
-                const orderI = order[key];
-                if (orderI.hasOwnProperty("items")) {
-                  const orderItems = orderI.items;
-                  // console.log("orderItems: ", orderItems);
-                  // Iterate over items
-                  orderItems.forEach((item) => {
-                    // console.log("item: ", item.eventTitle);
-                    // console.log("selectedOption: ", selectedOption);
-                    if (
-                      item.hasOwnProperty("eventTitle") &&
-                      item.eventTitle == selectedOption.value
-                    ) {
-                      // If eventTitle matches selectedOption, add user to result
-                      usersWithEvent.push(user.Details?.userDetails);
-                    }
-                  });
-                }
+                Object.keys(order).forEach((key) => {
+                  // Check if order has items
+                  const orderI = order[key];
+                  if (orderI.hasOwnProperty("items")) {
+                    const orderItems = orderI.items;
+                    // Iterate over items
+                    orderItems.forEach((item) => {
+                      if (item.hasOwnProperty("eventTitle")) {
+                        // Add user to result for any event
+                        usersWithEvent.push(user.Details?.userDetails);
+                      }
+                    });
+                  }
+                });
               });
-            });
-          }
-        });
-      } else {
-        console.log("No users found");
-      }
-    });
+            }
+          });
+        } else {
+          console.log("No users found");
+        }
+      });
+    } else {
+      // Search for a specific event
+      onValue(userRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+
+          // Iterate over each user
+          Object.keys(userData).forEach((userId) => {
+            const user = userData[userId];
+
+            // Check if user has orders
+            if (user.hasOwnProperty("orders")) {
+              const userOrders = user.orders;
+              // Iterate over orders
+              Object.keys(userOrders).forEach((orderId) => {
+                const order = userOrders[orderId];
+
+                Object.keys(order).forEach((key) => {
+                  // Check if order has items
+                  const orderI = order[key];
+                  if (orderI.hasOwnProperty("items")) {
+                    const orderItems = orderI.items;
+                    // Iterate over items
+                    orderItems.forEach((item) => {
+                      if (
+                        item.hasOwnProperty("eventTitle") &&
+                        item.eventTitle === selectedOption.value
+                      ) {
+                        // If eventTitle matches selectedOption, add user to result
+                        usersWithEvent.push(user.Details?.userDetails);
+                      }
+                    });
+                  }
+                });
+              });
+            }
+          });
+        } else {
+          console.log("No users found");
+        }
+      });
+    }
 
     return usersWithEvent;
   };
