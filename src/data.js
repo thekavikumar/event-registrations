@@ -28,7 +28,7 @@ export const eventOptions = [
     value: "PC Arcade and VR Games Stall",
     label: "PC Arcade and VR Games Stall",
   },
-  { value: "Mobile Planetorium Tag", label: "Mobile Planetorium Tag" },
+  { value: "Mobile Planetorium", label: "Mobile Planetorium" },
   {
     value: "Harry Potter Quidditch-Inner Spectra Games",
     label: "Harry Potter Quidditch-Inner Spectra Games",
