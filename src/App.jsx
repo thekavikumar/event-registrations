@@ -42,6 +42,7 @@ function App() {
                         usersWithEvent.push({
                           ...user.Details?.userDetails,
                           eventTitle: item.eventTitle,
+                          amountPaid: item.registrationFee,
                         });
                       }
                     });
