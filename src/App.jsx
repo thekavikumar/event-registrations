@@ -38,8 +38,11 @@ function App() {
                     // Iterate over items
                     orderItems.forEach((item) => {
                       if (item.hasOwnProperty("eventTitle")) {
-                        // Add user to result for any event
-                        usersWithEvent.push(user.Details?.userDetails);
+                        // Add user with event title to result
+                        usersWithEvent.push({
+                          ...user.Details?.userDetails,
+                          eventTitle: item.eventTitle,
+                        });
                       }
                     });
                   }
@@ -71,18 +74,14 @@ function App() {
                 Object.keys(order).forEach((key) => {
                   // Check if order has items
                   const orderI = order[key];
-                  if (orderI.hasOwnProperty("items")) {
-                    const orderItems = orderI.items;
-                    // Iterate over items
-                    orderItems.forEach((item) => {
-                      if (
-                        item.hasOwnProperty("eventTitle") &&
-                        item.eventTitle === selectedOption.value
-                      ) {
-                        // If eventTitle matches selectedOption, add user to result
-                        usersWithEvent.push(user.Details?.userDetails);
-                      }
-                    });
+                  if (
+                    orderI.hasOwnProperty("items") &&
+                    orderI.items.some(
+                      (item) => item.eventTitle === selectedOption.value
+                    )
+                  ) {
+                    // If eventTitle matches selectedOption, add user with event title to result
+                    usersWithEvent.push(user.Details?.userDetails);
                   }
                 });
               });
